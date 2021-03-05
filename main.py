@@ -1,16 +1,47 @@
-# This is a sample Python script.
+from turtle import Turtle, Screen
+from cars import Cars
+import time
+import random
+from crossing_turtle import CrossingTurtle
+from scoreboard import Scoreboard
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+my_screen = Screen()
+my_screen.setup(width=600, height=600)
+my_screen.title("Turtle Crossing Game")
+scoreboard = Scoreboard()
+my_screen.tracer(0)
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+crossing_turtle = CrossingTurtle()
+y_axis_list = []
+for numbers in range(-240, 260, 20):
+    y_axis_list.append(numbers)
+x_axis_list = [300,320,340, 360]
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+my_screen.listen()
+my_screen.onkey(crossing_turtle.move, "Up")
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+sleep = 0.5
+many_cars = []
+game_is_on = True
+while game_is_on:
+    my_screen.update()
+    time.sleep(sleep)
+    chosen_x = random.choice(x_axis_list)
+    chosen_y = random.choice(y_axis_list)
+    if chosen_x != 340:
+        cars = Cars(chosen_x, chosen_y)
+        many_cars.append(cars)
+    for items in many_cars:
+        items.move_cars()
+    for items in many_cars:
+        for item in items.car_list:
+            if crossing_turtle.distance(item) <= 20:
+                game_is_on = False
+    if crossing_turtle.ycor() >= 290:
+        sleep *= 0.7
+        crossing_turtle.starting_position()
+        scoreboard.increase_score()
+
+my_screen.exitonclick()
