@@ -8,10 +8,9 @@ from scoreboard import Scoreboard
 my_screen = Screen()
 my_screen.setup(width=600, height=600)
 my_screen.title("Turtle Crossing Game")
-scoreboard = Scoreboard()
 my_screen.tracer(0)
 
-
+scoreboard = Scoreboard()
 crossing_turtle = CrossingTurtle()
 y_axis_list = []
 for numbers in range(-240, 260, 20):
@@ -39,6 +38,7 @@ while game_is_on:
         for item in items.car_list:
             if crossing_turtle.distance(item) <= 20:
                 game_is_on = False
+                scoreboard.game_over()
     if crossing_turtle.ycor() >= 290:
         sleep *= 0.7
         crossing_turtle.starting_position()
